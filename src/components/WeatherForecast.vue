@@ -13,7 +13,7 @@
             <p>Humidity: {{ humidity }}%</p>
             <p>Wind Speed: {{ wind }} km/h</p>
             <figure class="image is-16x16 is-inline-block">
-              <img clas="is-rounded" :src="icon" alt="weather icon" />
+              <img :src="icon" alt="weather icon" />
             </figure>
           </div>
 
