@@ -2,6 +2,7 @@
 import WeatherForecast from "./components/WeatherForecast.vue";
 import sunIcon from "./assets/weather/snow.svg";
 import SearchBar from "./components/SearchBar.vue";
+import AddForecastButton from "./components/AddForecastButton.vue";
 </script>
 
 <template>
@@ -16,4 +17,5 @@ import SearchBar from "./components/SearchBar.vue";
     sunset="19:15"
   />
   <SearchBar />
+  <AddForecastButton />
 </template>
