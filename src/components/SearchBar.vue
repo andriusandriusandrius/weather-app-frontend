@@ -1,6 +1,9 @@
 <template>
-  <div class="field" style="max-width: 300px">
-    <p class="control has-icons-left">
+  <div
+    class="is-flex is-justify-content-center is-align-items-center"
+    style="gap: 0.5rem"
+  >
+    <p class="has-icons-left">
       <input
         class="input"
         type="text"
@@ -8,7 +11,7 @@
         v-model="query"
       />
     </p>
-    <div class="control">
+    <div>
       <button class="button is-info" @click="search">Search</button>
     </div>
   </div>
