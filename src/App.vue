@@ -4,6 +4,14 @@ import sunIcon from "./assets/weather/snow.svg";
 import SearchBar from "./components/SearchBar.vue";
 import AddForecastButton from "./components/AddForecastButton.vue";
 import Layout from "./components/Layout.vue";
+import { getWeather } from "./api/getWeather";
+import { onMounted, ref } from "vue";
+const weather = ref(null);
+
+onMounted(async () => {
+  weather.value = await getWeather("vilnius");
+  console.log(JSON.parse(JSON.stringify(weather.value)));
+});
 </script>
 
 <template>
