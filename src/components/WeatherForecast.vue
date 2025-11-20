@@ -30,14 +30,14 @@
 
 <script lang="ts" setup>
 type WeatherForecastProps = {
-  city: string;
-  icon: string;
-  temperature: number;
-  humidity: number;
-  wind: number;
-  pressure: number;
-  sunrise: string;
-  sunset: string;
+  city: string | undefined;
+  icon: string | undefined;
+  temperature: number | undefined;
+  humidity: number | undefined;
+  wind: number | undefined;
+  pressure: number | undefined;
+  sunrise: string | undefined;
+  sunset: string | undefined;
 };
 defineProps<WeatherForecastProps>();
 </script>
