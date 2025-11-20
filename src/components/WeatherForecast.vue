@@ -7,7 +7,7 @@
         <strong>{{ temperature }}°C</strong>
       </p>
 
-      <div class="content">
+      <div>
         <div class="is-flex is-justify-content-space-between is-size-6">
           <div>
             <p>Humidity: {{ humidity }}%</p>
