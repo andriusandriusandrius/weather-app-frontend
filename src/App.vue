@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AddForecastButton from "./components/AddForecastButton.vue";
 import Layout from "./components/Layout.vue";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 
 import AddForecastModal from "./components/AddForecastModal.vue";
 import type { WeatherData } from "./types/WeatherData";
@@ -11,10 +11,24 @@ const showModal = ref(false);
 const forecasts = ref<WeatherData[]>([]);
 const currentPage = ref(1);
 const pageSize = 10;
+const savedForecasts = localStorage.getItem("forecasts");
+
+if (savedForecasts) {
+  forecasts.value = JSON.parse(savedForecasts);
+}
 
 function addForecast(data: WeatherData) {
   forecasts.value.push(data);
 }
+
+watch(
+  forecasts,
+  (newValue) => {
+    localStorage.setItem("forecasts", JSON.stringify(newValue));
+  },
+  { deep: true }
+);
+
 const paginatedForecasts = computed(() => {
   const start = (currentPage.value - 1) * pageSize;
   const end = start + pageSize;
