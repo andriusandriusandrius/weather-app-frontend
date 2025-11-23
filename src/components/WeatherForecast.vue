@@ -1,5 +1,12 @@
 <template>
   <div class="card has-text-centered" style="max-width: 250px">
+    <button
+      class="button is-danger"
+      @click="$emit('delete')"
+      style="margin-top: 1rem"
+    >
+      X
+    </button>
     <div class="card-content">
       <p class="title">{{ forecast.city }}</p>
 

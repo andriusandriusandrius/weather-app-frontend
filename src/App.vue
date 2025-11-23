@@ -51,6 +51,9 @@ function prevPage() {
 function openModal() {
   showModal.value = true;
 }
+function deleteForecast(i: number) {
+  forecasts.value.splice(i, 1);
+}
 </script>
 
 <template>
@@ -59,6 +62,7 @@ function openModal() {
     <div class="is-flex is-flex-direction-column" style="gap: 1rem">
       <WeatherForecast
         v-for="(f, i) in paginatedForecasts"
+        @delete="deleteForecast(i)"
         :key="i"
         :forecast="f"
       />
