@@ -6,12 +6,14 @@ import { computed, ref, watch } from "vue";
 import AddForecastModal from "./components/AddForecastModal.vue";
 import type { WeatherData } from "./types/WeatherData";
 import WeatherForecast from "./components/WeatherForecast.vue";
+import SearchBarLocal from "./components/SearchBarLocal.vue";
 
 const showModal = ref(false);
 const forecasts = ref<WeatherData[]>([]);
 const currentPage = ref(1);
 const pageSize = 10;
 const savedForecasts = localStorage.getItem("forecasts");
+const searchTerm = ref("");
 
 if (savedForecasts) {
   forecasts.value = JSON.parse(savedForecasts);
@@ -29,13 +31,20 @@ watch(
   { deep: true }
 );
 
+const filteredForecasts = computed(() => {
+  if (!searchTerm.value) return forecasts.value;
+  return forecasts.value.filter((f) =>
+    f.city.toLowerCase().includes(searchTerm.value)
+  );
+});
+
 const paginatedForecasts = computed(() => {
   const start = (currentPage.value - 1) * pageSize;
   const end = start + pageSize;
-  return forecasts.value.slice(start, end);
+  return filteredForecasts.value.slice(start, end);
 });
 const totalPages = computed(() => {
-  return Math.ceil(forecasts.value.length / pageSize);
+  return Math.ceil(filteredForecasts.value.length / pageSize);
 });
 
 function nextPage() {
@@ -48,6 +57,9 @@ function prevPage() {
     currentPage.value--;
   }
 }
+function searchLocal(text: string) {
+  searchTerm.value = text;
+}
 function openModal() {
   showModal.value = true;
 }
@@ -58,6 +70,7 @@ function deleteForecast(i: number) {
 
 <template>
   <Layout title="weather.io">
+    <SearchBarLocal @search="searchLocal" />
     <AddForecastButton @click="openModal" />
     <div class="is-flex is-flex-direction-column" style="gap: 1rem">
       <WeatherForecast
