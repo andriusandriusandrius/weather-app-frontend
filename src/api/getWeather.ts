@@ -16,6 +16,7 @@ export async function getWeather(input: string, mode: FetchMode) {
     sunrise: timeConverter(data.sys.sunrise, data.timezone),
     sunset: timeConverter(data.sys.sunset, data.timezone),
     sunniness: sunninessMapper(data.weather?.[0]?.id),
+    lastUpdated: Date.now(),
   };
   return weather;
 }
