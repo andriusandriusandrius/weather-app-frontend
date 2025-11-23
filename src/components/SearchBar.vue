@@ -21,26 +21,32 @@
 import { ref } from "vue";
 import { getWeather } from "../api/getWeather";
 import type { WeatherData } from "../types/WeatherData";
+import { getUserFriendlyMessage } from "../utils/getUserFriendlyErrorMessages";
 
 const query = ref("");
-const warning = ref("");
 const emit = defineEmits<{
-  (e: "results", data: WeatherData): void;
+  (e: "results", data: WeatherData | null): void;
+  (e: "warning", message: string): void;
 }>();
 async function search() {
-  warning.value = "";
   const searchQuery = query.value.trim();
+
   if (!searchQuery) {
-    warning.value =
-      "Please enter a city, ZIP code(code, country-tag) or coordinates(seperated by comma)";
+    const msg =
+      "Please enter a city, ZIP code(e.g 10002,US) or coordinates(seperated by comma)";
+    emit("results", null);
+    emit("warning", msg);
     return;
   }
 
   try {
     const data = await searchWeather(searchQuery);
     emit("results", data);
+    emit("warning", "");
   } catch (error: any) {
-    warning.value = error.message;
+    const msg = getUserFriendlyMessage(error);
+    emit("results", null);
+    emit("warning", msg);
   }
 }
 
