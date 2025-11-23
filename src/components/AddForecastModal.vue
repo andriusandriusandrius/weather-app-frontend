@@ -1,6 +1,6 @@
 <template>
   <Modal :isActive="true" @close="$emit('close')">
-    <SearchBar @results="handleResults" />
+    <SearchBar @results="handleResults" @warning="modalWarning = $event" />
     <template #content>
       <div v-if="result">
         <h3 class="title is-4">{{ result.city }}</h3>
@@ -20,6 +20,7 @@
           +
         </button>
       </div>
+      <p v-if="modalWarning" class="has-text-danger">{{ modalWarning }}</p>
     </template>
   </Modal>
 </template>
@@ -30,12 +31,13 @@ import type { WeatherData } from "../types/WeatherData";
 import { getIcon } from "../utils/getIcon";
 import SearchBar from "./SearchBar.vue";
 import Modal from "./Modal.vue";
-
+const modalWarning = ref<string>();
 const result = ref<WeatherData | null>(null);
 const emit = defineEmits<{
   (e: "close"): void;
   (e: "add", data: WeatherData): void;
 }>();
+
 function handleResults(data: WeatherData | null) {
   result.value = data;
 }
