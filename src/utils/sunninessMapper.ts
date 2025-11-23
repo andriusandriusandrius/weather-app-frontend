@@ -20,5 +20,5 @@ export function sunninessMapper(id: number): Sky {
   } else if (id >= 801 && id <= 804) {
     return "cloudy";
   }
-  return "unkown";
+  return "unknown";
 }
