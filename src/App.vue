@@ -1,19 +1,23 @@
 <script setup lang="ts">
 import AddForecastButton from "./components/AddForecastButton.vue";
 import Layout from "./components/Layout.vue";
-import { computed, ref, watch } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 
 import AddForecastModal from "./components/AddForecastModal.vue";
 import type { WeatherData } from "./types/WeatherData";
 import WeatherForecast from "./components/WeatherForecast.vue";
 import SearchBarLocal from "./components/SearchBarLocal.vue";
+import { getWeather } from "./api/getWeather";
 
 const showModal = ref(false);
+const error = ref("");
 const forecasts = ref<WeatherData[]>([]);
 const currentPage = ref(1);
 const pageSize = 10;
 const savedForecasts = localStorage.getItem("forecasts");
 const searchTerm = ref("");
+const REFRESH_INTERVAL = 60 * 1000;
+let refreshTimerId: number | null = null;
 
 if (savedForecasts) {
   forecasts.value = JSON.parse(savedForecasts);
@@ -30,7 +34,18 @@ watch(
   },
   { deep: true }
 );
+async function refreshAllForecasts() {
+  const refreshPromises = forecasts.value.map(async (forecast, index) => {
+    try {
+      const updated = await getWeather(forecast?.city, "city");
+      forecasts.value[index] = updated;
+    } catch (err: any) {
+      error.value = err.message;
+    }
+  });
 
+  await Promise.allSettled(refreshPromises);
+}
 const filteredForecasts = computed(() => {
   if (!searchTerm.value) return forecasts.value;
   return forecasts.value.filter((f) =>
@@ -66,10 +81,22 @@ function openModal() {
 function deleteForecast(i: number) {
   forecasts.value.splice(i, 1);
 }
+
+onMounted(() => {
+  refreshAllForecasts();
+  refreshTimerId = window.setInterval(refreshAllForecasts, REFRESH_INTERVAL);
+});
+
+onUnmounted(() => {
+  if (refreshTimerId) {
+    clearInterval(refreshTimerId);
+  }
+});
 </script>
 
 <template>
   <Layout title="weather.io">
+    <p v-if="error" class="has-text-danger">{{ error }}</p>
     <SearchBarLocal @search="searchLocal" />
     <AddForecastButton @click="openModal" />
     <div class="is-flex is-flex-direction-column" style="gap: 1rem">
