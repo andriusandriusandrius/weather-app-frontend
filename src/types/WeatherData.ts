@@ -8,6 +8,7 @@ export type WeatherData = {
   sunset: string;
   sunniness: Sky;
 };
+export type FetchMode = "zip" | "latlon" | "city";
 export type Sky =
   | "cloudy"
   | "thunderstorm"
