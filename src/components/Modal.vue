@@ -13,11 +13,6 @@
       <section class="modal-card-body">
         <slot name="content" />
       </section>
-
-      <footer class="modal-card-foot is-flex" style="gap: 0.5rem">
-        <button class="button is-success" @click="$emit('ok')">OK</button>
-        <button class="button" @click="$emit('cancel')">Cancel</button>
-      </footer>
     </div>
   </div>
 </template>

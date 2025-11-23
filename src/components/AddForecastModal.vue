@@ -4,10 +4,21 @@
     <template #content>
       <div v-if="result">
         <h3 class="title is-4">{{ result.city }}</h3>
-        <p>Temp: {{ result.temperature }} C</p>
+        <p>Temperature: {{ result.temperature }} C</p>
         <figure class="image is-16x16 is-inline-block">
           <img :src="getIcon(result.sunniness)" alt="weather icon" />
         </figure>
+        <button
+          class="button is-primary"
+          @click="
+            if (result) {
+              emit('add', result);
+              emit('close');
+            }
+          "
+        >
+          +
+        </button>
       </div>
     </template>
   </Modal>
@@ -21,6 +32,10 @@ import SearchBar from "./SearchBar.vue";
 import Modal from "./Modal.vue";
 
 const result = ref<WeatherData | null>(null);
+const emit = defineEmits<{
+  (e: "close"): void;
+  (e: "add", data: WeatherData): void;
+}>();
 function handleResults(data: WeatherData | null) {
   result.value = data;
 }
