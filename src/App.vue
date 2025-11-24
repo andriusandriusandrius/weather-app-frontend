@@ -49,7 +49,7 @@ async function refreshAllForecasts() {
 const filteredForecasts = computed(() => {
   if (!searchTerm.value) return forecasts.value;
   return forecasts.value.filter((f) =>
-    f.city.toLowerCase().includes(searchTerm.value)
+    f.city.toLowerCase().includes(searchTerm.value.toLowerCase())
   );
 });
 
