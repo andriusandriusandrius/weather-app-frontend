@@ -1,5 +1,5 @@
 <template>
-  <div class="card has-text-centered" style="max-width: 250px">
+  <div class="card has-text-centered" style="max-width: 400px">
     <button
       class="button is-danger"
       @click="$emit('delete')"
@@ -13,15 +13,14 @@
       <p class="my-3 is-size-5">
         <strong>{{ forecast.temperature }}°C</strong>
       </p>
-
+      <figure class="image is-32x32 is-inline-block">
+        <img :src="getIcon(forecast.sunniness)" alt="weather icon" />
+      </figure>
       <div>
         <div class="is-flex is-justify-content-space-between is-size-6">
           <div>
             <p>Humidity: {{ forecast.humidity }}%</p>
             <p>Wind Speed: {{ forecast.windSpeed }} km/h</p>
-            <figure class="image is-16x16 is-inline-block">
-              <img :src="getIcon(forecast.sunniness)" alt="weather icon" />
-            </figure>
           </div>
 
           <div class="is-size-7">

@@ -2,10 +2,14 @@
   <Modal :isActive="true" @close="$emit('close')">
     <SearchBar @results="handleResults" @warning="modalWarning = $event" />
     <template #content>
-      <div v-if="result">
+      <div
+        v-if="result"
+        class="is-flex is-flex-direction-column is-align-items-center"
+        style="gap: 0.2rem"
+      >
         <h3 class="title is-4">{{ result.city }}</h3>
         <p>Temperature: {{ result.temperature }} C</p>
-        <figure class="image is-16x16 is-inline-block">
+        <figure class="image is-32x32 is-inline-block">
           <img :src="getIcon(result.sunniness)" alt="weather icon" />
         </figure>
         <button
