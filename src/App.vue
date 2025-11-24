@@ -16,7 +16,7 @@ const currentPage = ref(1);
 const pageSize = 10;
 const savedForecasts = localStorage.getItem("forecasts");
 const searchTerm = ref("");
-const REFRESH_INTERVAL = 60 * 1000;
+const REFRESH_INTERVAL = 5 * 60 * 1000;
 let refreshTimerId: number | null = null;
 
 if (savedForecasts) {
